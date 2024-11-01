@@ -6,6 +6,8 @@ package controller;
 
 import baza.DBBroker;
 import java.util.List;
+import model.Cvecar;
+import model.Kupac;
 import model.Otpremnica;
 
 /**
@@ -34,6 +36,14 @@ public class Controller {
 
     public List<Otpremnica> ucitajOtpremniceIzBaze() {
         return dbb.ucitajOtpremniceIzBaze();
+    }
+
+    public List<Cvecar> popuniCvecareIzBaze() {
+        return dbb.popuniCvecareIzBaze();
+    }
+
+    public List<Kupac> popuniKupceIzBaze() {
+        return dbb.popuniKupceIzBaze();
     }
     
 

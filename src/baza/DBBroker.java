@@ -94,4 +94,55 @@ public class DBBroker {
         }
         return listaOtpremnica;
     }
+
+    public List<Cvecar> popuniCvecareIzBaze() {
+        List<Cvecar> cvecari=new ArrayList<>();
+        try {
+            
+            String upit="SELECT * FROM cvecar";
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs=s.executeQuery(upit);
+            while(rs.next()){
+                int id=rs.getInt("idCvecar");
+                String ime=rs.getString("ime");
+                String prezime=rs.getString("prezime");
+                String korisnickoIme=rs.getString("korisnickoIme");
+                String lozinka=rs.getString("lozinka");
+                
+                Cvecar c=new Cvecar(id, ime, prezime, korisnickoIme, lozinka);
+                cvecari.add(c);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cvecari;
+    }
+
+    public List<Kupac> popuniKupceIzBaze() {
+        List<Kupac> kupci=new ArrayList<>();
+        try {
+            String upit="SELECT * FROM  kupac k JOIN "
+                    + "mesto m ON k.idMesto=m.idMesto";
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs=s.executeQuery(upit);
+            while(rs.next()){
+                int idK=rs.getInt("k.idKupac");
+                int pibK=rs.getInt("k.pibKupac");
+                String tel=rs.getString("k.telefon");
+                String email=rs.getString("k.email");
+                
+                int idM=rs.getInt("m.idMesto");
+                String grad=rs.getString("m.grad");
+                int pB=rs.getInt("m.postanskiBroj");
+                String ulica=rs.getString("m.ulica");
+                
+                Mesto mesto=new Mesto(idM, grad, pB, ulica);
+                Kupac k=new Kupac(idK, pibK, tel, email, mesto);
+                kupci.add(k);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return kupci;
+    }
 }
