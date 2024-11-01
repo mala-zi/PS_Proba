@@ -45,6 +45,11 @@ public class Controller {
     public List<Kupac> popuniKupceIzBaze() {
         return dbb.popuniKupceIzBaze();
     }
+
+    public void dodajOtpremnicu(Otpremnica otp) {
+        dbb.dodajOtpremnicu(otp);
+    }
+    
     
 
 }

@@ -11,8 +11,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import model.Cvecar;
 import model.Kupac;
+import model.Otpremnica;
 
 /**
  *
@@ -20,12 +23,18 @@ import model.Kupac;
  */
 public class KreirajOtp extends javax.swing.JDialog {
 
+    private MainForma mf;
+
     /**
      * Creates new form KreirajOtp
      */
     public KreirajOtp(java.awt.Frame parent, boolean modal) {
+
         super(parent, modal);
+        this.mf = (MainForma) parent;
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
         popuniCvecareIzBaze();
         popuniKupceIzBaze();
     }
@@ -59,10 +68,6 @@ public class KreirajOtp extends javax.swing.JDialog {
         jLabel3.setText("Cvecar");
 
         jLabel4.setText("Kupac");
-
-        combBoxCvecar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        comboBoxKupac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnOdustani.setText("odustani");
         btnOdustani.addActionListener(new java.awt.event.ActionListener() {
@@ -147,14 +152,39 @@ public class KreirajOtp extends javax.swing.JDialog {
 
     private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
         try {
-            // TODO add your handling code here:
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date datumIzdavanja=dateFormat.parse(txtDatumIzdavanja.getText());
-            double ukupnaCena=Double.parseDouble(txtUkupnaCena.getText());
+            if (txtDatumIzdavanja.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nisu sva polja popunjena", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Date datumIzdavanja = dateFormat.parse(txtDatumIzdavanja.getText());
+            if (txtUkupnaCena.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nedostaje cena", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            double ukupnaCena = Double.parseDouble(txtUkupnaCena.getText());
+            if (ukupnaCena < 0) {
+                JOptionPane.showMessageDialog(this, "Nevalidan unos", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+
+            }
+
+            Cvecar c = (Cvecar) combBoxCvecar.getSelectedItem();
+            Kupac k = (Kupac) comboBoxKupac.getSelectedItem();
+
+            
+            
+            Otpremnica otp=new Otpremnica(datumIzdavanja, ukupnaCena, c, k);
+            Controller.getInstance().dodajOtpremnicu(otp);
+            
         } catch (ParseException ex) {
             Logger.getLogger(KreirajOtp.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        mf.mto=new ModelTableOtpremnica(Controller.getInstance().ucitajOtpremniceIzBaze());
+        JOptionPane.showMessageDialog(this, "Otpremnica je dodata", "obavestenje", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }//GEN-LAST:event_btnKreirajActionPerformed
 
     /**
@@ -202,8 +232,8 @@ public class KreirajOtp extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKreiraj;
     private javax.swing.JButton btnOdustani;
-    private javax.swing.JComboBox<String> combBoxCvecar;
-    private javax.swing.JComboBox<String> comboBoxKupac;
+    private javax.swing.JComboBox<Cvecar> combBoxCvecar;
+    private javax.swing.JComboBox<Kupac> comboBoxKupac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -216,7 +246,7 @@ public class KreirajOtp extends javax.swing.JDialog {
         comboBoxKupac.removeAllItems();
         List<Cvecar> cvecari=Controller.getInstance().popuniCvecareIzBaze();
         for(Cvecar c: cvecari){
-            combBoxCvecar.addItem(c.toString());
+            combBoxCvecar.addItem(c);
         }
     }
 
@@ -224,7 +254,7 @@ public class KreirajOtp extends javax.swing.JDialog {
         comboBoxKupac.removeAllItems();
         List<Kupac> kupci=Controller.getInstance().popuniKupceIzBaze();
         for(Kupac k: kupci){
-            combBoxCvecar.addItem(String.valueOf(k.getPibKupac()));
+            comboBoxKupac.addItem(k);
         }
     }
 }

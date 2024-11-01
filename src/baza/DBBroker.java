@@ -26,20 +26,17 @@ public class DBBroker {
 
     public boolean login(String user, String password) {
         try {
-            String upit="SELECT korisnickoIme,lozinka FROM cvecar "
+            String upit = "SELECT korisnickoIme,lozinka FROM cvecar "
                     + "WHERE korisnickoIme=? AND BINARY lozinka=?";
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             ps.setString(1, user);
             ps.setString(2, password);
-            ResultSet rs=ps.executeQuery();
-            if(rs.next()){
-               //String korisnickoIme=rs.getString("korisnickoIme");
-               // String lozinka=rs.getString("lozinka");
-              //  if(korisnickoIme.equals(user) && lozinka.equals(password)){
-                    return true;
-               // }
-                 
-            }else{
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+
+                return true;
+
+            } else {
                 return false;
             }
         } catch (SQLException ex) {
@@ -103,7 +100,7 @@ public class DBBroker {
             Statement s=Konekcija.getInstance().getConnection().createStatement();
             ResultSet rs=s.executeQuery(upit);
             while(rs.next()){
-                int id=rs.getInt("idCvecar");
+                int id=rs.getInt("id");
                 String ime=rs.getString("ime");
                 String prezime=rs.getString("prezime");
                 String korisnickoIme=rs.getString("korisnickoIme");
@@ -144,5 +141,23 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return kupci;
+    }
+
+    public void dodajOtpremnicu(Otpremnica otp) {
+        try {
+            String upit="INSERT INTO otpremnica (idOtpremnica,datumIzdavanja,ukupnaCena,idCvecar,idKupac)"
+                    + " VALUES (?,?,?,?,?)";
+            PreparedStatement ps=Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1,otp.getIdOtpremnica());
+            ps.setDate(2, (java.sql.Date) otp.getDatumIzdavanja());
+            ps.setDouble(3, otp.getUkupnaCena());
+            ps.setInt(4,otp.getCvecar().getIdCvecar());
+            ps.setInt(5,otp.getKupac().getIdKupac());
+            ps.executeUpdate(); 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
     }
 }

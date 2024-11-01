@@ -19,6 +19,13 @@ public class Otpremnica {
 
     public Otpremnica() {
     }
+     public Otpremnica( Date datumIzdavanja, double ukupnaCena, Cvecar cvecar, Kupac kupac) {
+       
+        this.datumIzdavanja = datumIzdavanja;
+        this.ukupnaCena = ukupnaCena;
+        this.cvecar = cvecar;
+        this.kupac =kupac;
+    }
 
     public Otpremnica(int idOtpremnica, Date datumIzdavanja, double ukupnaCena, Cvecar cvecar, Kupac kupac) {
         this.idOtpremnica = idOtpremnica;
