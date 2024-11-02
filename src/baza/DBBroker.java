@@ -163,4 +163,25 @@ public class DBBroker {
         }
                 
     }
+
+    public void promeniOtpremnicu(Otpremnica otp) {
+
+        try {
+            String upit="UPDATE otpremnica SET datumIzdavanja=? "
+                    + ", ukupnaCena=? , idCvecar=?, idKupac=? WHERE idOtpremnica=?";
+            PreparedStatement ps=Konekcija.getInstance().getConnection().prepareStatement(upit);
+            java.sql.Date sqlDate= new java.sql.Date(otp.getDatumIzdavanja().getTime());
+            ps.setDate(1,sqlDate);
+            ps.setDouble(2,otp.getUkupnaCena());
+            ps.setInt(3,otp.getCvecar().getIdCvecar());
+            ps.setInt(4,otp.getKupac().getIdKupac());
+            ps.setInt(5, otp.getIdOtpremnica());
+            System.out.println(upit);
+            System.out.println(otp);
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

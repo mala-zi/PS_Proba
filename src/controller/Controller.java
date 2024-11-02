@@ -49,6 +49,11 @@ public class Controller {
     public void dodajOtpremnicu(Otpremnica otp) {
         dbb.dodajOtpremnicu(otp);
     }
+
+    public void promeniOtpremnicu(Otpremnica otp) {
+        dbb.promeniOtpremnicu(otp);
+    }
+
     
     
 

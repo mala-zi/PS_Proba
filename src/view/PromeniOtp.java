@@ -9,8 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Cvecar;
 import model.Kupac;
@@ -20,23 +18,25 @@ import model.Otpremnica;
  *
  * @author Saki
  */
-public class KreirajOtp extends javax.swing.JDialog {
+public class PromeniOtp extends javax.swing.JDialog {
 
-    private MainForma mf;
-
+    private Otpremnica novaOtp;
+    private PromeniForma pf;
     /**
-     * Creates new form KreirajOtp
+     * Creates new form PromeniOtp
      */
-    public KreirajOtp(java.awt.Frame parent, boolean modal) {
-
+    public PromeniOtp(java.awt.Dialog parent, boolean modal, Otpremnica otp) {
         super(parent, modal);
-        this.mf = (MainForma) parent;
+        this.pf=(PromeniForma)parent;
         initComponents();
-        setTitle("Kreiraj otpremnicu");
+        setTitle("Promeni otpremnicu");
         setResizable(false);
         setLocationRelativeTo(null);
         popuniCvecareIzBaze();
-        popuniKupceIzBaze();
+        popuniKupceIzBaze(); 
+        popuni(otp);
+        novaOtp=otp;
+        
     }
 
     /**
@@ -48,6 +48,9 @@ public class KreirajOtp extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        comboBoxKupac = new javax.swing.JComboBox<>();
+        btnOdustani = new javax.swing.JButton();
+        btnIzmeni = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtDatumIzdavanja = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -55,11 +58,24 @@ public class KreirajOtp extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         comboBoxCvecar = new javax.swing.JComboBox<>();
-        comboBoxKupac = new javax.swing.JComboBox<>();
-        btnOdustani = new javax.swing.JButton();
-        btnKreiraj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        comboBoxKupac.setSelectedItem(comboBoxKupac);
+
+        btnOdustani.setText("odustani");
+        btnOdustani.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdustaniActionPerformed(evt);
+            }
+        });
+
+        btnIzmeni.setText("izmeni");
+        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Datum izdavanja:");
 
@@ -69,19 +85,7 @@ public class KreirajOtp extends javax.swing.JDialog {
 
         jLabel4.setText("Kupac");
 
-        btnOdustani.setText("odustani");
-        btnOdustani.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOdustaniActionPerformed(evt);
-            }
-        });
-
-        btnKreiraj.setText("kreiraj");
-        btnKreiraj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKreirajActionPerformed(evt);
-            }
-        });
+        comboBoxCvecar.setSelectedItem(comboBoxCvecar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,8 +115,8 @@ public class KreirajOtp extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboBoxCvecar, 0, 152, Short.MAX_VALUE)
                             .addComponent(comboBoxKupac, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnKreiraj, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(82, Short.MAX_VALUE))
+                            .addComponent(btnIzmeni, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +140,7 @@ public class KreirajOtp extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOdustani)
-                    .addComponent(btnKreiraj))
+                    .addComponent(btnIzmeni))
                 .addGap(38, 38, 38))
         );
 
@@ -148,7 +152,7 @@ public class KreirajOtp extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
-    private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
+    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
         Date datumIzdavanja = new Date();
         double ukupnaCena =0;
         try {
@@ -173,32 +177,32 @@ public class KreirajOtp extends javax.swing.JDialog {
 
             Cvecar c = (Cvecar) comboBoxCvecar.getSelectedItem();
             Kupac k = (Kupac) comboBoxKupac.getSelectedItem();
-
-            Otpremnica otp = new Otpremnica(datumIzdavanja, ukupnaCena, c, k);
-            Controller.getInstance().dodajOtpremnicu(otp);
+            int idO=novaOtp.getIdOtpremnica();
+            Otpremnica otpremnica = new Otpremnica(idO,datumIzdavanja, ukupnaCena, c, k);
+            Controller.getInstance().promeniOtpremnicu(otpremnica);
 
         } catch (ParseException ex) {
-            Logger.getLogger(KreirajOtp.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(KreirajOtp.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Pogresan format datuma!", "Greska", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        mf.mto = new ModelTableOtpremnica(Controller.getInstance().ucitajOtpremniceIzBaze());
-        JOptionPane.showMessageDialog(this, "Otpremnica je dodata", "obavestenje", JOptionPane.INFORMATION_MESSAGE);
+        pf.mto = new ModelTableOtpremnica(Controller.getInstance().ucitajOtpremniceIzBaze());
+        JOptionPane.showMessageDialog(this, "Otpremnica je promenjena", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
-        
-    }//GEN-LAST:event_btnKreirajActionPerformed
+
+    }//GEN-LAST:event_btnIzmeniActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+   /* public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+     /*    try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -206,20 +210,20 @@ public class KreirajOtp extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(KreirajOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PromeniOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(KreirajOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PromeniOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(KreirajOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PromeniOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(KreirajOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PromeniOtp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+     /*  java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                KreirajOtp dialog = new KreirajOtp(new javax.swing.JFrame(), true);
+                PromeniOtp dialog = new PromeniOtp(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -229,10 +233,10 @@ public class KreirajOtp extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnKreiraj;
+    private javax.swing.JButton btnIzmeni;
     private javax.swing.JButton btnOdustani;
     private javax.swing.JComboBox<Cvecar> comboBoxCvecar;
     private javax.swing.JComboBox<Kupac> comboBoxKupac;
@@ -244,7 +248,14 @@ public class KreirajOtp extends javax.swing.JDialog {
     private javax.swing.JTextField txtUkupnaCena;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniCvecareIzBaze() {
+    private void popuni(Otpremnica otp) {
+        txtDatumIzdavanja.setText(String.valueOf(otp.getDatumIzdavanja()));
+        txtUkupnaCena.setText(String.valueOf(otp.getUkupnaCena()));
+        comboBoxCvecar.setSelectedItem(otp.getCvecar());
+        comboBoxKupac.setSelectedItem(otp.getKupac());
+ }
+    
+     private void popuniCvecareIzBaze() {
         comboBoxKupac.removeAllItems();
         List<Cvecar> cvecari=Controller.getInstance().popuniCvecareIzBaze();
         for(Cvecar c: cvecari){

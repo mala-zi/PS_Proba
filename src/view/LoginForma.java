@@ -22,6 +22,7 @@ public class LoginForma extends javax.swing.JFrame {
      */
     public LoginForma() {
         initComponents();
+        setTitle("Login forma");
         setResizable(false);
         setLocationRelativeTo(null);
         txtErrorLozinka.setVisible(false);

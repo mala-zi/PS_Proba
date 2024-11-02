@@ -5,6 +5,7 @@
 package view;
 
 import controller.Controller;
+import javax.swing.JOptionPane;
 
 
 
@@ -20,6 +21,7 @@ public class MainForma extends javax.swing.JFrame {
      */
     public MainForma() {
         initComponents();
+        setTitle("Glavna forma");
         setResizable(false);
         setLocationRelativeTo(null);
         tblOtp.setModel(mto);
@@ -93,6 +95,11 @@ public class MainForma extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Promeni otp");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Pretrazi otp");
@@ -165,6 +172,12 @@ public class MainForma extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        PromeniForma pf=new PromeniForma(this, true);
+        pf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
