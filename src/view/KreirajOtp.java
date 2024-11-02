@@ -151,40 +151,44 @@ public class KreirajOtp extends javax.swing.JDialog {
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
     private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
+        Date datumIzdavanja = new Date();
+        double ukupnaCena =0;
         try {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (txtDatumIzdavanja.getText().isEmpty()) {
+            if (txtDatumIzdavanja.getText().isEmpty() || txtUkupnaCena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nisu sva polja popunjena", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Date datumIzdavanja = dateFormat.parse(txtDatumIzdavanja.getText());
-            if (txtUkupnaCena.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nedostaje cena", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            double ukupnaCena = Double.parseDouble(txtUkupnaCena.getText());
-            if (ukupnaCena < 0) {
-                JOptionPane.showMessageDialog(this, "Nevalidan unos", "Greska", JOptionPane.ERROR_MESSAGE);
-                return;
+            datumIzdavanja = dateFormat.parse(txtDatumIzdavanja.getText());
+            try {
+                ukupnaCena = Double.parseDouble(txtUkupnaCena.getText());
+                if (ukupnaCena < 0) {
+                    JOptionPane.showMessageDialog(this, "Nevalidan unos", "Greska", JOptionPane.ERROR_MESSAGE);
+                    return;
 
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ukupna cena mora biti broj!", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
             Cvecar c = (Cvecar) combBoxCvecar.getSelectedItem();
             Kupac k = (Kupac) comboBoxKupac.getSelectedItem();
 
-            
-            
-            Otpremnica otp=new Otpremnica(datumIzdavanja, ukupnaCena, c, k);
+            Otpremnica otp = new Otpremnica(datumIzdavanja, ukupnaCena, c, k);
             Controller.getInstance().dodajOtpremnicu(otp);
-            
+
         } catch (ParseException ex) {
-            Logger.getLogger(KreirajOtp.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(KreirajOtp.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Pogresan format datuma!", "Greska", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
-        mf.mto=new ModelTableOtpremnica(Controller.getInstance().ucitajOtpremniceIzBaze());
+
+        mf.mto = new ModelTableOtpremnica(Controller.getInstance().ucitajOtpremniceIzBaze());
         JOptionPane.showMessageDialog(this, "Otpremnica je dodata", "obavestenje", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
+        
     }//GEN-LAST:event_btnKreirajActionPerformed
 
     /**

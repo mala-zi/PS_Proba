@@ -14,16 +14,18 @@ public class Kupac {
     private String telefon;
     private String email;
     private Mesto mesto;
+    private String naziv;
 
     public Kupac() {
     }
 
-    public Kupac(int idKupac, int pibKupac, String telefon, String email, Mesto mesto) {
+    public Kupac(int idKupac, int pibKupac, String telefon, String email, Mesto mesto,String naziv) {
         this.idKupac = idKupac;
         this.pibKupac = pibKupac;
         this.telefon = telefon;
         this.email = email;
         this.mesto = mesto;
+        this.naziv=naziv;
     }
 
 
@@ -45,6 +47,14 @@ public class Kupac {
 
     public int getPibKupac() {
         return pibKupac;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
     }
 
     public void setPibKupac(int pibKupac) {
@@ -69,7 +79,7 @@ public class Kupac {
 
     @Override
     public String toString() {
-        return "pib:"+pibKupac;
+        return naziv;
     }
 
    

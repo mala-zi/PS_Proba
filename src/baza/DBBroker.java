@@ -71,6 +71,7 @@ public class DBBroker {
                 int pibK = rs.getInt("k.pibKupac");
                 String tel = rs.getString("k.telefon");
                 String email = rs.getString("k.email");
+                String naziv=rs.getString("k.naziv");
                 
                 int idM=rs.getInt("m.idMesto");
                 String grad=rs.getString("m.grad");
@@ -78,7 +79,7 @@ public class DBBroker {
                 String ulica=rs.getString("m.ulica");
                 
                 Mesto mesto=new Mesto(idM, grad, pB, ulica);
-                Kupac kupac=new Kupac(idK, pibK, tel, email, mesto);
+                Kupac kupac=new Kupac(idK, pibK, tel, email, mesto,naziv);
                 Cvecar cvecar=new Cvecar(idC, imeC, prezimeC, user, pass);
                 
                 Otpremnica otp=new Otpremnica(idO, datum, ukupno, cvecar, kupac);
@@ -127,6 +128,7 @@ public class DBBroker {
                 int pibK=rs.getInt("k.pibKupac");
                 String tel=rs.getString("k.telefon");
                 String email=rs.getString("k.email");
+                String naziv=rs.getString("k.naziv");
                 
                 int idM=rs.getInt("m.idMesto");
                 String grad=rs.getString("m.grad");
@@ -134,7 +136,7 @@ public class DBBroker {
                 String ulica=rs.getString("m.ulica");
                 
                 Mesto mesto=new Mesto(idM, grad, pB, ulica);
-                Kupac k=new Kupac(idK, pibK, tel, email, mesto);
+                Kupac k=new Kupac(idK, pibK, tel, email, mesto,naziv);
                 kupci.add(k);
             }
         } catch (SQLException ex) {
@@ -146,15 +148,16 @@ public class DBBroker {
     public void dodajOtpremnicu(Otpremnica otp) {
         try {
             String upit="INSERT INTO otpremnica (idOtpremnica,datumIzdavanja,ukupnaCena,idCvecar,idKupac)"
-                    + " VALUES (?,?,?,?,?)";
+                    + " VALUES (?,?,?,?,?) ";
             PreparedStatement ps=Konekcija.getInstance().getConnection().prepareStatement(upit);
+            java.sql.Date sqlDate=new java.sql.Date(otp.getDatumIzdavanja().getTime());
             ps.setInt(1,otp.getIdOtpremnica());
-            ps.setDate(2, (java.sql.Date) otp.getDatumIzdavanja());
+            ps.setDate(2,  sqlDate);
             ps.setDouble(3, otp.getUkupnaCena());
             ps.setInt(4,otp.getCvecar().getIdCvecar());
             ps.setInt(5,otp.getKupac().getIdKupac());
             ps.executeUpdate(); 
-            
+            Konekcija.getInstance().getConnection().commit();
         } catch (SQLException ex) {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
