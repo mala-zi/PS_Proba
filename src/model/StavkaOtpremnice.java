@@ -15,18 +15,30 @@ public class StavkaOtpremnice {
     private double iznos;
     private String napomena;
     private Aranzman aranzman;
+    private Otpremnica otpremnica;
 
     public StavkaOtpremnice() {
     }
 
-    public StavkaOtpremnice(int rb, int kolicina, double cena, double iznos, String napomena, Aranzman aranzman) {
+    public StavkaOtpremnice(int rb, int kolicina, double cena, double iznos, String napomena, Aranzman aranzman, Otpremnica otpremnica) {
         this.rb = rb;
         this.kolicina = kolicina;
         this.cena = cena;
         this.iznos = iznos;
         this.napomena = napomena;
         this.aranzman = aranzman;
+        this.otpremnica = otpremnica;
     }
+
+    public Otpremnica getOtpremnica() {
+        return otpremnica;
+    }
+
+    public void setOtpremnica(Otpremnica otpremnica) {
+        this.otpremnica = otpremnica;
+    }
+
+    
 
     public Aranzman getAranzman() {
         return aranzman;
@@ -79,9 +91,10 @@ public class StavkaOtpremnice {
 
     @Override
     public String toString() {
-        return "StavkaOtpremnice{" + "rb=" + rb + ", kolicina=" + kolicina + ", cena=" + cena + ", iznos=" + iznos + ", napomena=" + napomena + ", aranzman=" + aranzman + '}';
+        return "StavkaOtpremnice{" + "rb=" + rb + ", kolicina=" + kolicina + ", cena=" + cena + ", iznos=" + iznos + ", napomena=" + napomena + ", aranzman=" + aranzman + ", otpremnica=" + otpremnica + '}';
     }
 
+    
     
     
     

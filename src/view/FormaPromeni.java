@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author Saki
  */
-public class PromeniForma extends javax.swing.JDialog {
+public class FormaPromeni extends javax.swing.JDialog {
 ModelTableOtpremnica mto= new ModelTableOtpremnica( Controller.getInstance().ucitajOtpremniceIzBaze());
     /**
      * Creates new form PromeniForma
      */
-    public PromeniForma(java.awt.Frame parent, boolean modal) {
+    public FormaPromeni(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Promeni otpremnicu forma");
@@ -110,6 +110,7 @@ ModelTableOtpremnica mto= new ModelTableOtpremnica( Controller.getInstance().uci
         if(selektovanRed==-1){
             JOptionPane.showMessageDialog(this, "Nijedan red nije selektovan", "Greska", JOptionPane.ERROR_MESSAGE);
         }else{
+          //  JOptionPane.showMessageDialog(this, "Sistem je nasao otpremnicu", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
             PromeniOtp po=new PromeniOtp(this, true, Controller.getInstance().ucitajOtpremniceIzBaze().get(selektovanRed));
             po.setVisible(true);
             tblOtp.setModel(mto);
@@ -133,20 +134,21 @@ ModelTableOtpremnica mto= new ModelTableOtpremnica( Controller.getInstance().uci
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PromeniForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormaPromeni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PromeniForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormaPromeni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PromeniForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormaPromeni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PromeniForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormaPromeni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PromeniForma dialog = new PromeniForma(new javax.swing.JFrame(), true);
+                FormaPromeni dialog = new FormaPromeni(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

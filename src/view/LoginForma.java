@@ -53,6 +53,7 @@ public class LoginForma extends javax.swing.JFrame {
 
         lblLoznika.setText("lozinka");
 
+        txtKorisnickoIme.setText("ana3");
         txtKorisnickoIme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtKorisnickoImeActionPerformed(evt);
@@ -66,6 +67,7 @@ public class LoginForma extends javax.swing.JFrame {
             }
         });
 
+        txtLozinka.setText("asdfghjkl");
         txtLozinka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLozinkaActionPerformed(evt);

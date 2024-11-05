@@ -21,13 +21,13 @@ import model.Otpremnica;
 public class PromeniOtp extends javax.swing.JDialog {
 
     private Otpremnica novaOtp;
-    private PromeniForma pf;
+    private FormaPromeni pf;
     /**
      * Creates new form PromeniOtp
      */
     public PromeniOtp(java.awt.Dialog parent, boolean modal, Otpremnica otp) {
         super(parent, modal);
-        this.pf=(PromeniForma)parent;
+        this.pf=(FormaPromeni)parent;
         initComponents();
         setTitle("Promeni otpremnicu");
         setResizable(false);

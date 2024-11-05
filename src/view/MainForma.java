@@ -175,7 +175,7 @@ public class MainForma extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        PromeniForma pf=new PromeniForma(this, true);
+        FormaPromeni pf=new FormaPromeni(this, true);
         pf.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
