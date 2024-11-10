@@ -8,6 +8,7 @@ import baza.DBBroker;
 import java.util.List;
 import model.Cvecar;
 import model.Kupac;
+import model.Mesto;
 import model.Otpremnica;
 
 /**
@@ -54,6 +55,43 @@ public class Controller {
         dbb.promeniOtpremnicu(otp);
     }
 
+    public List<Kupac> ucitajKupceIzBaze() {
+        return dbb.ucitajKupceIzBaze();
+    }
+
+    public List<Mesto> ucitajMestaIzBaze() {
+        return dbb.ucitajMestaIzBaze();
+    }
+
+    public void dodajKupca(Kupac k) {
+        dbb.dodajKupca(k);
+    }
+
+    public void izmeniKupca(Kupac k) {
+        dbb.izmeniKupca(k);
+    }
+
+    public void obrisiKupca(Kupac kupac) {
+        dbb.obrisiKupca(kupac);
+    }
+
+    public List<Cvecar> ucitajCvecareIzBaze() {
+        return dbb.ucitajCvecareIzBaze();
+    }
+
+    public void obrisiCvecara(Cvecar c) {
+        dbb.obrisiCvecara(c);
+    }
+
+    public void dodajCvecara(Cvecar c) {
+        dbb.dodajCvecara(c);
+    }
+
+    public void promeniCvecara(Cvecar c) {
+        dbb.promeniCvecara(c);
+    }
+
+    
     
     
 

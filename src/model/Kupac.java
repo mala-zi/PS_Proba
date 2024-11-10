@@ -27,6 +27,14 @@ public class Kupac {
         this.mesto = mesto;
         this.naziv=naziv;
     }
+     public Kupac( int pibKupac, String telefon, String email, Mesto mesto,String naziv) {
+        
+        this.pibKupac = pibKupac;
+        this.telefon = telefon;
+        this.email = email;
+        this.mesto = mesto;
+        this.naziv=naziv;
+    }
 
 
     public Mesto getMesto() {

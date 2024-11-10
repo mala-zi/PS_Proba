@@ -4,6 +4,7 @@
  */
 package view;
 
+import tableModel.ModelTableOtpremnica;
 import controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,7 @@ import model.Otpremnica;
  */
 public class KreirajOtp extends javax.swing.JDialog {
 
-    private MainForma mf;
+    private GlavnaForma mf;
 
     /**
      * Creates new form KreirajOtp
@@ -30,7 +31,7 @@ public class KreirajOtp extends javax.swing.JDialog {
     public KreirajOtp(java.awt.Frame parent, boolean modal) {
 
         super(parent, modal);
-        this.mf = (MainForma) parent;
+        this.mf = (GlavnaForma) parent;
         initComponents();
         setTitle("Kreiraj otpremnicu");
         setResizable(false);

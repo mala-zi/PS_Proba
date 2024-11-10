@@ -58,7 +58,7 @@ public class Mesto {
 
     @Override
     public String toString() {
-        return "Mesto{" + "idMesto=" + idMesto + ", grad=" + grad + ", postanskiBroj=" + postanskiBroj + ", ulica=" + ulica + '}';
+        return  grad ;
     }
     
 }

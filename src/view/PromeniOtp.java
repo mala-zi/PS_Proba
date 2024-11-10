@@ -4,6 +4,7 @@
  */
 package view;
 
+import tableModel.ModelTableOtpremnica;
 import controller.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

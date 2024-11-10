@@ -26,6 +26,14 @@ public class Cvecar {
         this.lozinka = lozinka;
     }
 
+    public Cvecar( String ime, String prezime, String korisnickoIme, String lozinka) {
+        
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
+    }
+
     public int getIdCvecar() {
         return idCvecar;
     }

@@ -5,7 +5,6 @@
 package view;
 
 import controller.Controller;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -21,13 +20,14 @@ public class LoginForma extends javax.swing.JFrame {
      * Creates new form LoginForma
      */
     public LoginForma() {
+        
         initComponents();
         setTitle("Login forma");
         setResizable(false);
         setLocationRelativeTo(null);
         txtErrorLozinka.setVisible(false);
         unos();
-
+        
     }
 
     /**
@@ -138,10 +138,19 @@ public class LoginForma extends javax.swing.JFrame {
 
         boolean logged = Controller.getInstance().login(user, password);
         if (logged) {
-            JOptionPane.showMessageDialog(this, "uspesno logovanje!", "obavestenje", JOptionPane.INFORMATION_MESSAGE);
-            MainForma mf = new MainForma();
-            mf.setVisible(true);
+            try{
+            
+           //throw new Exception();
+                GlavnaForma mf = new GlavnaForma();
+           JOptionPane.showMessageDialog(this, "uspesno logovanje!", "obavestenje", JOptionPane.INFORMATION_MESSAGE);
+                mf.setVisible(true);
+                
             this.dispose();
+            
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da otvori glavnu formu!", "Greska", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } else {
             JOptionPane.showMessageDialog(this, "neuspesno logovanje", "greska", JOptionPane.ERROR_MESSAGE);
 

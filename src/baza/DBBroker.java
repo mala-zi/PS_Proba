@@ -184,4 +184,174 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<Kupac> ucitajKupceIzBaze() {
+        List<Kupac> kupci=new ArrayList<>();
+        try {
+            String upit="SELECT * FROM kupac k JOIN mesto m ON k.idMesto=m.idMesto";
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs=s.executeQuery(upit);
+            while(rs.next()){
+                int id=rs.getInt("k.idKupac");
+                String naziv=rs.getString("k.naziv");
+                int pib=rs.getInt("k.pibKupac");
+                String email=rs.getString("k.email");
+                String tel=rs.getString("k.telefon");
+                
+                int idMesto=rs.getInt("m.idMesto");
+                String grad=rs.getString("m.grad");
+                int pBroj=rs.getInt("m.postanskiBroj");
+                String ulica=rs.getString("m.ulica");
+                
+                Mesto mesto=new Mesto(idMesto, grad, pBroj, ulica);
+                Kupac kupac=new Kupac(id, pib, tel, email, mesto, naziv);
+                
+                kupci.add(kupac);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return kupci;
+    }
+
+    public List<Mesto> ucitajMestaIzBaze() {
+        List<Mesto> mesta=new ArrayList<>();
+        try {
+            String upit="SELECT * FROM mesto";
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs=s.executeQuery(upit);
+            while(rs.next()){
+                
+                
+                int idMesto=rs.getInt("idMesto");
+                String grad=rs.getString("grad");
+                int pBroj=rs.getInt("postanskiBroj");
+                String ulica=rs.getString("ulica");
+                
+                Mesto mesto=new Mesto(idMesto, grad, pBroj, ulica);
+                
+                mesta.add(mesto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mesta;
+    }
+
+    public void dodajKupca(Kupac k) {
+        try {
+            String upit="INSERT INTO kupac (idKupac,pibKupac,telefon,email,idMesto,naziv) VALUES(?,?,?,?,?,?)";
+            PreparedStatement ps=Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, k.getIdKupac());
+            ps.setInt(2,k.getPibKupac());
+            ps.setString(3,k.getTelefon());
+            ps.setString(4, k.getEmail());
+            ps.setInt(5, k.getMesto().getIdMesto());
+            ps.setString(6, k.getNaziv());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    public void izmeniKupca(Kupac k) {
+        try {
+            String upit = "UPDATE kupac SET naziv=?,email=?,pibKupac=?,telefon=?,idMesto=? WHERE idKupac=" + k.getIdKupac();
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, k.getNaziv());
+            ps.setString(2, k.getEmail());
+            ps.setInt(3, k.getPibKupac());
+            ps.setString(4, k.getTelefon());
+
+            ps.setObject(5, k.getMesto().getIdMesto());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void obrisiKupca(Kupac kupac) {
+        try {
+            String upit="DELETE FROM kupac WHERE idKupac="+kupac.getIdKupac();
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            s.executeUpdate(upit);
+            Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
+
+    public List<Cvecar> ucitajCvecareIzBaze() {
+        List<Cvecar> cvecari=new ArrayList<>();
+        try {
+            String upit="SELECT * FROM cvecar";
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            ResultSet rs=s.executeQuery(upit);
+            while(rs.next()){
+                int id=rs.getInt("id");
+                String ime=rs.getString("ime");
+                String prezime=rs.getString("prezime");
+                String kor=rs.getString("korisnickoIme");
+                String lozinka=rs.getString("lozinka");
+                
+                Cvecar c=new Cvecar(id, ime, prezime, kor, lozinka);
+                
+              cvecari.add(c);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cvecari;
+    }
+
+    public void obrisiCvecara(Cvecar c) {
+        try {
+            String upit="DELETE FROM cvecar WHERE id="+c.getIdCvecar();
+            Statement s=Konekcija.getInstance().getConnection().createStatement();
+            s.executeUpdate(upit);
+            Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void dodajCvecara(Cvecar c) {
+        try {
+            String upit="INSERT INTO cvecar (ime,prezime,korisnickoIme,lozinka) VALUES(?,?,?,?)";
+            PreparedStatement ps=Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1,c.getIme());
+            ps.setString(2,c.getPrezime());
+            ps.setString(3, c.getKorisnickoIme());
+            ps.setString(4, c.getLozinka());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void promeniCvecara(Cvecar c) {
+        try {
+            String upit = "UPDATE cvecar SET ime=?,prezime=?, korisnickoIme=?,lozinka=? WHERE id=" +c.getIdCvecar();
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, c.getIme());
+            ps.setString(2, c.getPrezime());
+            ps.setString(3, c.getKorisnickoIme());
+            ps.setString(4, c.getLozinka());
+
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

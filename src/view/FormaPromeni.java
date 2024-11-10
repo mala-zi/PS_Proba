@@ -4,6 +4,7 @@
  */
 package view;
 
+import tableModel.ModelTableOtpremnica;
 import controller.Controller;
 import javax.swing.JOptionPane;
 
